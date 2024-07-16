@@ -40,6 +40,13 @@ spec:
               readOnly: true
             - name: storage
               mountPath: "/opt/conda-store/"
+          resources:
+            limits:
+              cpu: 1
+              memory: 1Gi
+            requests:
+              cpu: 1
+              memory: 1Gi
       restartPolicy: Always
       volumes:
         - name: config

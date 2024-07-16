@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: minio
 spec:
-  type: NodePort
+#  type: NodePort
   ports:
     - name: "9000"
-      nodePort: 30900
+#      nodePort: 30900
       port: 9000
       targetPort: 9000
   selector:
@@ -59,6 +59,13 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: minio-claim
+          resources:
+            limits:
+              cpu: 1
+              memory: 1Gi
+            requests:
+              cpu: 1
+              memory: 1Gi
       restartPolicy: Always
       volumes:
         - name: minio-claim

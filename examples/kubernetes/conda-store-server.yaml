@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: conda-store-server
 spec:
-  type: NodePort
+#  type: NodePort
   ports:
     - name: "8080"
-      nodePort: 30500
+#      nodePort: 30500
       port: 8080
       targetPort: 8080
   selector:
@@ -39,6 +39,13 @@ spec:
             - name: config
               mountPath: "/etc/conda-store/"
               readOnly: true
+          resources:
+            limits:
+              cpu: 1
+              memory: 1Gi
+            requests:
+              cpu: 1
+              memory: 1Gi
       restartPolicy: Always
       volumes:
         - name: config

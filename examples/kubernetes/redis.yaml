@@ -41,6 +41,13 @@ spec:
       labels:
         app: redis
     spec:
+      initContainers:
+        - name: init-permissions
+          image: busybox
+          command: [ 'sh', '-c', 'chown -R 1000:1000 /bitnami/redis/data' ]
+          volumeMounts:
+            - mountPath: /bitnami/redis/data
+              name: redis-claim
       containers:
         - name: redis
           image: bitnami/redis:6.0.16
@@ -52,6 +59,16 @@ spec:
           volumeMounts:
             - mountPath: /bitnami/redis/data
               name: redis-claim
+          resources:
+            limits:
+              cpu: 1
+              memory: 1Gi
+            requests:
+              cpu: 1
+              memory: 1Gi
+          securityContext:
+            runAsUser: 1000  # Ensure this user has the right permissions
+#            fsGroup: 1000    # Ensure the group has the right permissions
       restartPolicy: Always
       volumes:
         - name: redis-claim
