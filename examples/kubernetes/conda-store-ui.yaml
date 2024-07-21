@@ -28,15 +28,29 @@ spec:
     spec:
       containers:
         - name: conda-store-ui
-          image: gitlab-registry.nrp-nautilus.io/segurvich/test/conda-store-ui
-          args:
-            - "yarn run start:ui --port 8000 --history-api-fallback"
-#          args:
-#            - "conda-store-server"
-#            - "--config"
-#            - "/etc/conda-store/conda_store_config.py"
+          image: gitlab-registry.nrp-nautilus.io/segurvich/test/conda-store-ui:0.11
+#          command: [ "yarn", "run", "start:ui" ]
+#          args: [ "--port", "8000", "--history-api-fallback" ]
+#          command:
+#            - "yarn run start:ui --port 8000 --history-api-fallback"
+#            - "yarn webpack-dev-server --port 8000"
           ports:
             - containerPort: 8000
+#          env:
+#            - name: REACT_APP_API_URL
+#              value: http://conda-store-server
+#            - name: REACT_APP_LOGIN_PAGE_URL
+#              value: http://conda-store-server/login?next=
+#            - name: REACT_APP_LOGOUT_PAGE_URL
+#              value: http://conda-store-server/logout?next=/
+#            - name: REACT_APP_AUTH_METHOD
+#              value: cookie
+#            - name: REACT_APP_AUTH_TOKEN
+#              value: ""
+#            - name: REACT_APP_STYLE_TYPE
+#              value: green-accent
+#            - name: REACT_APP_SHOW_AUTH_BUTTON
+#              value: "true"
 #          volumeMounts:
 #            - name: config
 #              mountPath: "/etc/conda-store/"
@@ -49,10 +63,6 @@ spec:
               cpu: "1"
               memory: 8Gi
       restartPolicy: Always
-#      volumes:
-#        - name: config
-#          configMap:
-#            name: conda-store-config
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

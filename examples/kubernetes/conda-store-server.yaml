@@ -12,6 +12,17 @@ spec:
   selector:
     app: conda-store-server
 ---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  name: conda-store-pvc
+#spec:
+#  accessModes:
+#    - ReadWriteOnce
+#  resources:
+#    requests:
+#      storage: 10Gi
+#---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -28,7 +39,7 @@ spec:
     spec:
       containers:
         - name: conda-store-server
-          image: quansight/conda-store-server:v0.4.5
+          image: quansight/conda-store-server:2024.6.1
           args:
             - "conda-store-server"
             - "--config"
@@ -39,18 +50,25 @@ spec:
             - name: config
               mountPath: "/etc/conda-store/"
               readOnly: true
+#            - name: conda-store-storage
+#              mountPath: "/opt/conda-store/conda-store/"
           resources:
             limits:
               cpu: "1"
               memory: 1Gi
+              ephemeral-storage: "10Gi"
             requests:
               cpu: "1"
               memory: 1Gi
+              ephemeral-storage: "10Gi"
       restartPolicy: Always
       volumes:
         - name: config
           configMap:
             name: conda-store-config
+#        - name: conda-store-storage
+#          persistentVolumeClaim:
+#            claimName: conda-store-pvc
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -58,6 +76,10 @@ metadata:
   name: conda-store-ingress
   annotations:
     kubernetes.io/ingress.class: haproxy
+    haproxy.org/allow-origin: http://localhost:8000
+    haproxy.org/allow-credentials: "true"
+    haproxy.org/allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
+    haproxy.org/allow-headers: "Content-Type"
 spec:
   rules:
   - host: conda-store-ndp.nrp-nautilus.io

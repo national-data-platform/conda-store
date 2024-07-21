@@ -7,7 +7,6 @@ resources:
   - redis.yaml
   - conda-store-server.yaml
   - conda-store-worker.yaml
-#  - conda-store-ui.yaml
 configMapGenerator:
   - name: conda-store-config
     files:
