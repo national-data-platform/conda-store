@@ -19,6 +19,7 @@ services:
       ]
 
   conda-store-server:
+#    image: quansight/conda-store-server:2024.6.1
     build:
       context: conda-store-server
       target: dev
@@ -86,23 +87,3 @@ services:
       retries: 5
     environment:
       REDIS_PASSWORD: password
-
-  conda-store-ui:
-    image: gitlab-registry.nrp-nautilus.io/segurvich/test/conda-store-ui
-    args: "yarn run start:ui --port 8000 --history-api-fallback"
-#    profiles:
-#      - local-dev
-    ports:
-      - "8000:8000"
-    depends_on:
-      conda-store-server:
-        condition: service_healthy
-    platform: linux/amd64
-#    volumes:
-#      - .:/usr/src/app
-    healthcheck:
-      test:
-        ["CMD", "curl", "--fail", "http://localhost:8000"]
-      interval: 20s
-      timeout: 10s
-      retries: 8

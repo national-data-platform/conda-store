@@ -46,7 +46,7 @@ c.CondaStoreServer.enable_metrics = True
 c.CondaStoreServer.address = "0.0.0.0"
 c.CondaStoreServer.port = 8080
 # This MUST start with `/`
-c.CondaStoreServer.url_prefix = "/conda-store"
+c.CondaStoreServer.url_prefix = "/"
 
 
 # ==================================
@@ -68,15 +68,18 @@ c.CondaStoreWorker.concurrency = 4
 # ==================================
 #         registry settings
 # ==================================
-# from python_docker.registry import Registry
-# import os
+from python_docker.registry import Registry
+import os
 
-# def _configure_docker_registry(registry_url: str):
-#     return Registry(
-#         "https://registry-1.docker.io",
-#         username=os.environ.get('DOCKER_USERNAME'),
-#         password=os.environ.get('DOCKER_PASSWORD'))
+def _configure_docker_registry(registry_url: str):
+    return Registry(
+        "https://hub.docker.com",
+        username='segurvich',
+        password='9kYUKc6gw#kYm-v'
+    )
 
-# c.ContainerRegistry.container_registries = {
-#     'https://registry-1.docker.io': _configure_docker_registry
-# }
+c.ContainerRegistry.container_registries = {
+    'https://hub.docker.com/': _configure_docker_registry
+}
+c.ContainerRegistry.container_registry_image_name = 'segurvich/conda-store-test'
+c.ContainerRegistry.container_registry_image_tag = 'latest'

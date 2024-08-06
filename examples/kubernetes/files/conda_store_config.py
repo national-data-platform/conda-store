@@ -53,3 +53,20 @@ c.CondaStoreServer.authentication_class = DummyAuthentication
 c.CondaStoreWorker.log_level = logging.DEBUG
 c.CondaStoreWorker.watch_paths = ["/opt/environments"]
 c.CondaStoreWorker.concurrency = 4
+
+
+# from python_docker.registry import Registry
+# import os
+#
+# def _configure_docker_registry(registry_url: str):
+#     return Registry(
+#         "https://hub.docker.com",
+#         username='segurvich',
+#         password='9kYUKc6gw#kYm-v'
+#     )
+#
+# c.ContainerRegistry.container_registries = {
+#     'https://hub.docker.com/': _configure_docker_registry
+# }
+# ContainerRegistry.container_registry_image_name = 'segurvich/conda-store-test'
+# ContainerRegistry.container_registry_image_tag = 'latest'
